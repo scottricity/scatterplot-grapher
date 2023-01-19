@@ -1,16 +1,25 @@
-const canvas = document.getElementById("myCanvas");
-const ctx = canvas.getContext("2d");
-canvas.height = canvas.width;
-ctx.transform(1, 0, 0, -1, 0, canvas.height)
+google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
 
-const xArray = [50,60,70,80,90,100,110,2,130,140,150];
-const yArray = [7,8,8,9,9,9,10,11,14,14,15];
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Age', 'Weight'],
+          [ 8,      12],
+          [ 4,      5.5],
+          [ 11,     14],
+          [ 4,      5],
+          [ 3,      3.5],
+          [ 6.5,    7]
+        ]);
 
-ctx.fillStyle = "red";
-for (let i = 0; i < xArray.length-1; i++) {
-  let x = xArray[i]*400/150;
-  let y = yArray[i]*400/15;
-  ctx.beginPath();
-  ctx.ellipse(x, y, 3, 3, 0, 0, Math.PI * 2);
-  ctx.fill();
-}
+        var options = {
+          title: 'Age vs. Weight comparison',
+          hAxis: {title: 'Age', minValue: 0, maxValue: 15},
+          vAxis: {title: 'Weight', minValue: 0, maxValue: 15},
+          legend: 'none'
+        };
+
+        var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
+
+        chart.draw(data, options);
+      }
